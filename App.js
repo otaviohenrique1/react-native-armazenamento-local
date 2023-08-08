@@ -27,7 +27,7 @@ export default function App() {
         renderItem={(nota) => <Nota {...nota} />}
         keyExtractor={(nota) => nota[0]}
       />
-      <NotaEditor /* mostraNotas={mostraNotas} */ />
+      <NotaEditor mostraNotas={mostraNotas} />
       <StatusBar />
     </SafeAreaView>
   );
