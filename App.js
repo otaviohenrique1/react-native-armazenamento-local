@@ -8,12 +8,12 @@ import { criaTabela } from "./src/servicos/Notas";
 export default function App() {
   const [notas, setNotas] = useState([]);
 
-  // async function mostraNotas() {
+  async function mostraNotas() {
   //   const totasChaves = await AsyncStorage.getAllKeys();
   //   const totasNotas = await AsyncStorage.multiGet(totasChaves);
   //   setNotas(totasNotas);
   //   console.log(totasNotas);
-  // }
+  }
 
   useEffect(() => {
     criaTabela();
