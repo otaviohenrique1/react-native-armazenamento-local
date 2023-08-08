@@ -3,7 +3,7 @@ import NotaEditor from "./src/componentes/NotaEditor";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Nota } from "./src/componentes/Nota";
-import { criaTabela } from "./src/servicos/Notas";
+import { buscaNotas, criaTabela } from "./src/servicos/Notas";
 
 export default function App() {
   const [notas, setNotas] = useState([]);
@@ -11,12 +11,14 @@ export default function App() {
   async function mostraNotas() {
   //   const totasChaves = await AsyncStorage.getAllKeys();
   //   const totasNotas = await AsyncStorage.multiGet(totasChaves);
-  //   setNotas(totasNotas);
-  //   console.log(totasNotas);
+    const todasNotas = await buscaNotas();
+    setNotas(todasNotas);
+    console.log(todasNotas);
   }
 
   useEffect(() => {
     criaTabela();
+    mostraNotas();
   }, [])
   
 
@@ -25,7 +27,7 @@ export default function App() {
       <FlatList
         data={notas}
         renderItem={(nota) => <Nota {...nota} />}
-        keyExtractor={(nota) => nota[0]}
+        keyExtractor={(nota) => nota.id}
       />
       <NotaEditor mostraNotas={mostraNotas} />
       <StatusBar />
