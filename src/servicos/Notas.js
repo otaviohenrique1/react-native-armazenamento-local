@@ -18,6 +18,16 @@ export async function adicionaNota(nota) {
   })
 }
 
+export async function atualizaNota(nota) {
+  return new Promise((resolve, reject) => {
+    db.transaction((transaction) => {
+      transaction.executeSql("UPDATE Notas SET titulo = ?, categoria = ?, texto = ? WHERE = ?;", [nota.titulo, nota.categoria, nota.texto, nota.id], () => {
+        resolve("Nota atualiza com sucesso!");
+      });
+    });
+  })
+}
+
 export async function buscaNotas() {
   return new Promise((resolve, reject) => {
     db.transaction((transaction) => {

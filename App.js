@@ -6,6 +6,7 @@ import { Nota } from "./src/componentes/Nota";
 import { buscaNotas, criaTabela } from "./src/servicos/Notas";
 
 export default function App() {
+  const [notaSelecionada, setNotaSelecionada] = useState({});
   const [notas, setNotas] = useState([]);
 
   async function mostraNotas() {
@@ -26,10 +27,19 @@ export default function App() {
     <SafeAreaView style={estilos.container}>
       <FlatList
         data={notas}
-        renderItem={(nota) => <Nota {...nota} />}
+        renderItem={(nota) => (
+          <Nota
+            {...nota}
+            setNotaSelecionada={setNotaSelecionada}
+          />
+        )}
         keyExtractor={(nota) => nota.id}
       />
-      <NotaEditor mostraNotas={mostraNotas} />
+      <NotaEditor
+        mostraNotas={mostraNotas}
+        notaSelecionada={notaSelecionada}
+        setNotaSelecionada={setNotaSelecionada}
+      />
       <StatusBar />
     </SafeAreaView>
   );
