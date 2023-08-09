@@ -1,7 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react"
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
-import { adicionaNota, atualizaNota } from "../servicos/Notas";
+import { adicionaNota, atualizaNota, removeNota } from "../servicos/Notas";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function NotaEditor({ mostraNotas, notaSelecionada, setNotaSelecionada }) {
@@ -31,6 +31,7 @@ export default function NotaEditor({ mostraNotas, notaSelecionada, setNotaSeleci
     await adicionaNota(umaNota);
     console.log(umaNota);
     mostraNotas();
+    limpaModal();
     // const novoId = await geraId();
     // const umaNota = {
     //   id: novoId.toString(),
@@ -58,6 +59,13 @@ export default function NotaEditor({ mostraNotas, notaSelecionada, setNotaSeleci
     };
     await atualizaNota(umaNota);
     mostraNotas();
+    limpaModal();
+  }
+
+  async function deletaNota() {
+    await removeNota(notaSelecionada);
+    mostraNotas();
+    limpaModal();
   }
 
   function preencheModal() {
@@ -113,10 +121,18 @@ export default function NotaEditor({ mostraNotas, notaSelecionada, setNotaSeleci
               <View style={estilos.modalBotoes}>
                 <TouchableOpacity
                   style={estilos.modalBotaoSalvar}
-                  onPress={() => { notaParaAtualizar ? salvaNota() : modificaNota()}}
+                  onPress={() => { notaParaAtualizar ? salvaNota() : modificaNota() }}
                 >
                   <Text style={estilos.modalBotaoTexto}>Salvar</Text>
                 </TouchableOpacity>
+                {(notaParaAtualizar) ? (
+                  <TouchableOpacity
+                    style={estilos.modalBotaoDeletar}
+                    onPress={() => { deletaNota(); }}
+                  >
+                    <Text style={estilos.modalBotaoTexto}>Deletar</Text>
+                  </TouchableOpacity>
+                ) : <></>}
                 <TouchableOpacity
                   style={estilos.modalBotaoCancelar}
                   onPress={() => { limpaModal(); }}
